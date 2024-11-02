@@ -13,7 +13,7 @@ const RegistrationForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:5000/register / register', student);
+            await axios.post('https://classbac-2.onrender.com / register', student);
             alert('Registration successful!');
             setStudent({ name: '', age: '', grade: '', parentEmail: '' });
         } catch (error) {
