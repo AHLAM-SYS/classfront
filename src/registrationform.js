@@ -14,7 +14,7 @@ const Registration = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://https://classbac-5.onrender.com/register', formData);
+            const response = await axios.post('https://classbac-5.onrender.com/register', formData);
             setMessage('Registration successful!');
             setFormData({ name: '', email: '', grade: '', age: '', password: '' }); // Reset form
         } catch (error) {
