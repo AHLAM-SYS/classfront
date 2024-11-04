@@ -1,36 +1,77 @@
-// src/components/RegistrationForm.js
 import React, { useState } from 'react';
 import axios from 'axios';
-import './rigestrationform.css';
+import './rigestrationform.css'; // Import CSS file
 
-const RegistrationForm = () => {
-    const [student, setStudent] = useState({ name: '', age: '', grade: '', parentEmail: '' });
+const Registration = () => {
+    const [formData, setFormData] = useState({ name: '', email: '', grade: '' });
+    const [message, setMessage] = useState('');
 
     const handleChange = (e) => {
-        setStudent({ ...student, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('https://classbac-4.onrender.com / register', student);
-            alert('Registration successful!');
-            setStudent({ name: '', age: '', grade: '', parentEmail: '' });
+            const response = await axios.post('http://localhost:5000/register', formData);
+            setMessage('Registration successful!');
+            setFormData({ name: '', email: '', grade: '', age: '', password: '' }); // Reset form
         } catch (error) {
-            alert('Error registering student');
+            console.error('Error registering:', error.response ? error.response.data : error.message);
+            setMessage('Error registering: ' + (error.response ? error.response.data.message : error.message));
         }
     };
 
     return (
-        <form className="registration-form" onSubmit={handleSubmit}>
+        <div className="registration-container">
             <h2>School Registration</h2>
-            <input type="text" name="name" placeholder="Name" value={student.name} onChange={handleChange} required />
-            <input type="number" name="age" placeholder="Age" value={student.age} onChange={handleChange} required />
-            <input type="text" name="grade" placeholder="Grade" value={student.grade} onChange={handleChange} required />
-            <input type="email" name="parentEmail" placeholder="Parent Email" value={student.parentEmail} onChange={handleChange} required />
-            <button type="submit">Register</button>
-        </form>
+            {message && <p>{message}</p>}
+            <form onSubmit={handleSubmit} className="registration-form">
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                />
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                />
+                <input
+                    type="text"
+                    name="grade"
+                    placeholder="Grade"
+                    value={formData.grade}
+                    onChange={handleChange}
+                    required
+                />
+                <input
+                    type="number"
+                    name="age"
+                    placeholder="age"
+                    value={formData.age}
+                    onChange={handleChange}
+                    required
+                />
+                <input
+                    type="text"
+                    name="family password"
+                    placeholder="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                />
+                <button type="submit">Register</button>
+            </form>
+        </div>
     );
 };
 
-export default RegistrationForm;
+export default Registration;
